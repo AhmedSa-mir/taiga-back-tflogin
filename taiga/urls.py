@@ -22,6 +22,7 @@ from django.urls import path
 
 from .routers import router
 
+from taiga.auth.threebot import tf_login, tf_callback
 
 ##############################################
 # Default
@@ -30,6 +31,8 @@ from .routers import router
 urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('api/v1/threebot/login', tf_login),
+    path('api/v1/threebot/callback', tf_callback),
 ]
 
 handler500 = "taiga.base.api.views.api_server_error"

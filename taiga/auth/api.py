@@ -30,7 +30,6 @@ from .validators import PrivateRegisterValidator
 from .services import private_register_for_new_user
 from .services import public_register
 from .services import make_auth_response_data
-from .services import get_auth_plugins
 from .services import accept_invitation_by_existing_user
 
 from .permissions import AuthPermission
@@ -102,15 +101,5 @@ class AuthViewSet(viewsets.ViewSet):
     # Login view: /api/v1/auth
     def create(self, request, **kwargs):
         self.check_permissions(request, 'create', None)
-        auth_plugins = get_auth_plugins()
-
-        login_type = request.DATA.get("type", None)
-        invitation_token = request.DATA.get("invitation_token", None)
-
-        if login_type in auth_plugins:
-            data = auth_plugins[login_type]['login_func'](request)
-            if invitation_token:
-                accept_invitation_by_existing_user(invitation_token, data['id'])
-            return response.Ok(data)
-
-        raise exc.BadRequest(_("invalid login type"))
+        # TODO: https
+        return response.MovedPermanently(f"http://{settings.SITES['api']['domain']}/api/v1/threebot/login")
