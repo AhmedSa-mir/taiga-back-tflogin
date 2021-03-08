@@ -62,7 +62,6 @@ def tf_callback(request):
         data = auth_plugins[login_type]['login_func'](request)
         data['roles'] = list(data['roles'].values())    # roles is a QuerySet which is not JSON serializable
         params = urlencode(data)
-        # TODO: https
-        return redirect(f"http://{settings.SITES['api']['domain']}/login?{params}")
+        return redirect(f"https://{settings.SITES['api']['domain']}/login?{params}")
 
     raise exc.BadRequest(_("invalid login type"))

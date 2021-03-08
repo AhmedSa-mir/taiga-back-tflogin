@@ -101,5 +101,4 @@ class AuthViewSet(viewsets.ViewSet):
     # Login view: /api/v1/auth
     def create(self, request, **kwargs):
         self.check_permissions(request, 'create', None)
-        # TODO: https
-        return response.MovedPermanently(f"http://{settings.SITES['api']['domain']}/api/v1/threebot/login")
+        return response.MovedPermanently(f"https://{settings.SITES['api']['domain']}/api/v1/threebot/login")
