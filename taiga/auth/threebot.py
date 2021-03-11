@@ -20,9 +20,8 @@ REDIRECT_URL = "https://login.threefold.me"
 
 
 def tf_login(request):
-    # state = str(uuid4()).replace("-", "")
-    # request.session["state"] = state
-    state="1234567"
+    state = str(uuid4()).replace("-", "")
+    request.session["state"] = state
 
     response = requests.get(f"{OAUTH_URL}/pubkey")
     response.raise_for_status()
@@ -40,8 +39,7 @@ def tf_login(request):
 
 def tf_callback(request):
     data = request.GET.get('signedAttempt')
-    # resp = requests.post(f"{OAUTH_URL}/verify", data={"signedAttempt": data, "state": request.session.get("state")})
-    resp = requests.post(f"{OAUTH_URL}/verify", data={"signedAttempt": data, "state": "1234567"})
+    resp = requests.post(f"{OAUTH_URL}/verify", data={"signedAttempt": data, "state": request.session.get("state")})
     resp.raise_for_status()
     data = resp.json()
     username = data['username']
